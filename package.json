@@ -159,13 +159,19 @@
     }
   },
   "closureWhitelist": [
-    "mdc-animation"
+    "mdc-animation",
+    "mdc-base"
   ],
   "closureWhitelist2": [
     "mdc-animation",
     "mdc-button",
     "mdc-elevation",
+    "mdc-fab",
+    "mdc-layoutGrid",
+    "mdc-list",
     "mdc-ripple",
+    "mdc-rtl",
+    "mdc-switch",
     "mdc-theme",
     "mdc-typography"
   ]
