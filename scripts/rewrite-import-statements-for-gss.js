@@ -107,8 +107,9 @@ function rewriteImportDeclaration(importSource, srcFile, rootDir) {
   const pathParts = importSource.split('/');
   const isMDCImport = pathParts[0] === '@material';
   if (isMDCImport) {
-    const modName = pathParts[1];  // @material/<modName>
-    const atMaterialReplacementPath = `${rootDir}/mdc-${modName}`;
+    let modName = pathParts[1];  // @material/<modName>
+    modName = modName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    const atMaterialReplacementPath = `${rootDir}/${modName}`;
     const rewrittenImportSource = [atMaterialReplacementPath].concat(pathParts.slice(2)).join('/');
     importSource = rewrittenImportSource;
   }

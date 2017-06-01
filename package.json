@@ -165,6 +165,7 @@
   "closureWhitelist2": [
     "mdc-animation",
     "mdc-button",
+    "mdc-card",
     "mdc-elevation",
     "mdc-fab",
     "mdc-layout-grid",

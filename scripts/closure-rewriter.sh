@@ -22,6 +22,8 @@ function log() {
   echo -e "\033[36m[closure-test]\033[0m" "$@"
 }
 
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
 CLOSURE_TMP=.closure-tmp
 CLOSURE_PKGDIR=$CLOSURE_TMP/packages
 CLOSURIZED_PKGS=$(node -e "console.log(require('./package.json').closureWhitelist2.join(' '))")
@@ -37,8 +39,25 @@ rm -fr $CLOSURE_TMP/**
 mkdir -p $CLOSURE_PKGDIR
 for pkg in $CLOSURIZED_PKGS; do
   cp -r "packages/$pkg" $CLOSURE_PKGDIR
+  IFS='- ' read -r -a pkgParts <<< "${pkg:4}"
+  for pkgPart in "${pkgParts[@]}"
+	do
+  		BETTER_PKG="$BETTER_PKG$(tr '[:lower:]' '[:upper:]' <<< ${pkgPart:0:1})${pkgPart:1}"
+	done
+	BETTER_PKG="$(tr '[:upper:]' '[:lower:]' <<< ${BETTER_PKG:0:1})${BETTER_PKG:1}"
+  mv "$CLOSURE_PKGDIR/$pkg" "$CLOSURE_PKGDIR/$BETTER_PKG"
+  BETTER_PKG=""
 done
 rm -fr $CLOSURE_PKGDIR/**/{node_modules,dist}
+rm -fr $CLOSURE_PKGDIR/**/README.md
+rm -fr $CLOSURE_PKGDIR/**/package.json
+rm -fr $CLOSURE_PKGDIR/**/*.js
 
 log "Rewriting all import statements to be closure compatible"
 node scripts/rewrite-import-statements-for-gss.js $CLOSURE_PKGDIR
+
+log "Tarring up"
+echo $CLOSURE_PKGDIR
+cd $CLOSURE_PKGDIR
+tar -czvf mdc-wiz.tar.gz *
+cd ../..

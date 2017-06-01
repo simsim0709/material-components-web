@@ -39,9 +39,9 @@
   border-radius: 2px;
   outline: none;
   background: transparent;
-  font-size: 14px; // Override font to specifically be px as spec defined pt
-  font-weight: 500;
-  line-height: 36px; // Override line-height so text aligns centered
+  /*! @alternate */ font-size: 14px; // Override font to specifically be px as spec defined pt
+  /*! @alternate */ font-weight: 500;
+  /*! @alternate */ line-height: 36px; // Override line-height so text aligns centered
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
