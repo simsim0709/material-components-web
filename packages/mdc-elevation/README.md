@@ -16,7 +16,7 @@ path: /catalog/elevation/
   </a>
 </div>-->
 
-Shadows provide important visual cues about objects’ depth and directional movement. They are the only visual cue indicating the amount of separation between surfaces. An object’s elevation determines the appearance of its shadow. Read more details about [elevation](https://material.io/guidelines/what-is-material/elevation-shadows.html) in the Material Design Guidelines.
+Shadows provide important visual cues about objects’ depth and directional movement. They are the only visual cue indicating the amount of separation between surfaces. An object’s elevation determines the appearance of its shadow.
 
 > **A note about "z-space"**: Within the spec, elevation is normally referred to as having a `dp`
 > value. In other words, how many "pixels" above the base material is a piece of material elevated.
