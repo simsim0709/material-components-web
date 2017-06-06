@@ -271,6 +271,39 @@ testFoundation('#open anchors the menu on the top left in LTR when not close to 
       td.verify(mockAdapter.setPosition({left: '0', top: '0'}));
     });
 
+testFoundation('#close does nothing if event target has aria-disabled set to true',
+  ({foundation, mockAdapter}) => {
+    const mockEvt = {
+      target: {},
+      stopPropagation: td.func('stopPropagation'),
+    };
+
+    td.when(mockAdapter.getAttributeForEventTarget(td.matchers.anything(), strings.ARIA_DISABLED_ATTR))
+      .thenReturn('true');
+
+    foundation.close(mockEvt);
+
+    td.verify(mockAdapter.deregisterDocumentClickHandler(td.matchers.anything()), {times: 0});
+  });
+
+// const {foundation, mockAdapter} = setupTest();
+// const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+//
+// td.when(mockAdapter.getAttributeForEventTarget(td.matchers.anything(), strings.ARIA_DISABLED_ATTR))
+//   .thenReturn('true');
+// const clock = lolex.install();
+// const mockEvt = {
+//   target: {},
+//   stopPropagation: td.func('stopPropagation'),
+// };
+//
+// foundation.init();
+// handlers.click(mockEvt);
+// clock.tick(numbers.SELECTED_TRIGGER_DELAY);
+// td.verify(mockAdapter.notifySelected(td.matchers.anything()), {times: 0});
+//
+// clock.uninstall();
+
 testFoundation('#close adds the animation class to start an animation', ({foundation, mockAdapter, mockRaf}) => {
   foundation.close();
   mockRaf.flush();

@@ -73,9 +73,9 @@ export default class MDCSimpleMenuFoundation extends MDCFoundation {
     this.clickHandler_ = (evt) => this.handlePossibleSelected_(evt);
     this.keydownHandler_ = (evt) => this.handleKeyboardDown_(evt);
     this.keyupHandler_ = (evt) => this.handleKeyboardUp_(evt);
-    this.documentClickHandler_ = () => {
+    this.documentClickHandler_ = (evt) => {
       this.adapter_.notifyCancel();
-      this.close();
+      this.close(evt);
     };
     this.isOpen_ = false;
     this.startScaleX_ = 0;
@@ -301,12 +301,7 @@ export default class MDCSimpleMenuFoundation extends MDCFoundation {
   }
 
   handlePossibleSelected_(evt) {
-    const targetIsDisabled =
-      this.adapter_.getAttributeForEventTarget(
-        evt.target, MDCSimpleMenuFoundation.strings.ARIA_DISABLED_ATTR
-      ) === 'true';
-    if (targetIsDisabled) {
-      evt.stopPropagation();
+    if (this.adapter_.getAttributeForEventTarget(evt.target, strings.ARIA_DISABLED_ATTR) === 'true') {
       return;
     }
     const targetIndex = this.adapter_.getIndexForEventTarget(evt.target);
@@ -387,7 +382,15 @@ export default class MDCSimpleMenuFoundation extends MDCFoundation {
   }
 
   // Close the menu.
-  close() {
+  close(evt = null) {
+    const targetIsDisabled = evt ?
+      this.adapter_.getAttributeForEventTarget(evt.target, strings.ARIA_DISABLED_ATTR) === 'true' :
+      false;
+
+    if (targetIsDisabled) {
+      return;
+    }
+
     this.adapter_.deregisterDocumentClickHandler(this.documentClickHandler_);
     this.adapter_.addClass(MDCSimpleMenuFoundation.cssClasses.ANIMATING);
     requestAnimationFrame(() => {
